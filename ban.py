@@ -18,8 +18,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 # Telegram bot token and channel IDs
 TOKEN = '7934887542:AAGDd4iwOPL1Ar45JssUCHcBLIZ5ZYzEFKI'  # Replace with your actual bot token
-CHANNEL_ID = '-1002298552334'  # Replace with your specific channel or group ID for attacks
-FEEDBACK_CHANNEL_ID = '-1004674734157'  # Replace with your specific channel ID for feedback
+CHANNEL_ID = '-1004674734157'  # Replace with your specific channel or group ID for attacks
+FEEDBACK_CHANNEL_ID = '-1002124760113'  # Replace with your specific channel ID for feedback
 message_queue = []
 
 
