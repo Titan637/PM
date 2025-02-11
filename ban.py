@@ -54,7 +54,7 @@ BAN_DURATION = timedelta(hours=1)  # 1 hour ban for invalid feedback
 DAILY_ATTACK_LIMIT = 50000
 EXEMPTED_USERS = [7163028849, 1429085020, 2030309627, 1361385319, 1359464947]
 # Configuration
-MAX_ATTACK_DURATION = 300  # Maximum attack duration in seconds (e.g., 300 seconds = 5 minutes)
+MAX_ATTACK_DURATION = 240  # Maximum attack duration in seconds (e.g., 300 seconds = 5 minutes)
 
 def is_member(user_id):
     """Check if the user is a member of the official channel."""
