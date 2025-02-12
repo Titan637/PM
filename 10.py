@@ -430,7 +430,7 @@ def attack_command(message):
     found_user = next((user for user in users if user['user_id'] == user_id), None)
 
     if not found_user:
-        bot.send_message(chat_id, "*You are not registered. Please redeem a key.\nContact For New Key:- ᚛ @GOD_OFF_LSR ᚜*", parse_mode='Markdown')
+        bot.send_message(chat_id, "*You are not registered. Please redeem a key.\nContact For New Key:- ᚛ @TITANOP24 ᚜*", parse_mode='Markdown')
         return
 
     try:
@@ -640,7 +640,7 @@ def send_welcome(message):
 
     if is_super_admin(user_id):
         welcome_message = (
-            f"Welcome, Super Admin! Developed By ᚛ @GOD_OFF_LSR ᚜\n\n"
+            f"Welcome, Super Admin! Developed By ᚛ @TITANOP24 ᚜\n\n"
             f"Admin Commands:\n"
             f"/addadmin - Add new admin\n"
             f"/removeadmin - Remove admin\n"
@@ -653,7 +653,7 @@ def send_welcome(message):
     elif is_admin(user_id):
         balance = get_admin_balance(user_id)
         welcome_message = (
-            f"Welcome, Admin! Developed By ᚛ @GOD_OFF_LSR ᚜\n\n"
+            f"Welcome, Admin! Developed By ᚛ @TITANOP24 ᚜\n\n"
             f"Your Balance: {balance}\n\n"
             f"Admin Commands:\n"
             f"/genkey - Generate new key\n"
@@ -662,12 +662,12 @@ def send_welcome(message):
         )
     else:
         welcome_message = (
-            f"Welcome, {username}! Developed By ᚛ @GOD_OFF_LSR ᚜\n\n"
+            f"Welcome, {username}! Developed By ᚛ @TITANOP24 ᚜\n\n"
             f"Please redeem a key to access bot functionalities.\n"
             f"Available Commands:\n"
             f"/redeem - To redeem key\n"
             f"/Attack - Start an attack\n\n"
-            f"Contact ᚛ @GOD_OFF_LSR ᚜ for new keys"
+            f"Contact ᚛ @TITANOP24 ᚜ for new keys"
         )
 
     bot.send_message(message.chat.id, welcome_message, reply_markup=markup)
