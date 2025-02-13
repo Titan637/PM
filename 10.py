@@ -29,8 +29,8 @@ ADMIN_IDS = [7163028849]
 # Add this global variable at the top of your script
 ALLOWED_GROUP_ID = -1002400803425  # Replace with your actual group ID
 BOT_TOKEN = "7934887542:AAFu9iTGdI8gAqCDlfiBmE-MIOGPIi5Q-HU"
-thread_count = 500
-packet_size = 12
+thread_count = 900
+packet_size = 6
 ADMIN_FILE = 'admin_data.json'
 last_attack_times = {}
 COOLDOWN_MINUTES = 3
